@@ -48,7 +48,7 @@ void prodoct3loop(int **a,int **b ,int **r, int tam){
 };
 
 int main(){
-  int tam=3;
+  int tam=800;
   int **m1,**m2,**r;
   start(m1,tam);
     fill(m1,tam);
@@ -66,7 +66,7 @@ int main(){
 
   t=clock()-t;
   //cout<<setprecision(0)<<fixed;
-  cout<<"time: "<< ((float)t)/CLOCKS_PER_SEC <<" ms"<<endl;
+  cout<<"time: "<< ((float)t)/CLOCKS_PER_SEC <<" s"<<endl;
   
   //show(r,tam);
 
