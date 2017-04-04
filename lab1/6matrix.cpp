@@ -1,5 +1,7 @@
-#include<iostream>
-#include<stdlib.h>
+
+#include <stdlib.h>
+#include <iomanip>
+#include <iostream>
 #include <ctime>
 
 using namespace std;
@@ -36,10 +38,7 @@ void show(int **a,int tam){
 
 //matrices cuadradas del mismo tamaño
 void product6loop(int **a,int **b ,int **r, int tam,int sizeofblock){
-  if(sizeofblock>=tam){
-    return;
-  }
-
+  if(sizeofblock>=tam){return;}
   for(int i=0 ; i<tam ; i+=sizeofblock ){
     for(int j=0 ; j<tam ; j+=sizeofblock ){
       for(int k=0 ; k<tam ; k+=sizeofblock){
@@ -59,7 +58,7 @@ void product6loop(int **a,int **b ,int **r, int tam,int sizeofblock){
 
 int main(){
   int sizeofblock=2;
-  int tam=8 ;
+  int tam=800;
   int **m1,**m2,**r;
   start(m1,tam);
     fill(m1,tam);
@@ -68,12 +67,18 @@ int main(){
   start(r,tam);
     fill(r,tam,0);
 
-  show(m1,tam);
-  show(m2,tam);
-  show(r,tam);
+  //show(m1,tam);
+  //show(m2,tam);
+  //show(r,tam);
+  float t=clock();
 
   product6loop(m1,m2,r,tam,sizeofblock);
-  show(r,tam);
+
+  t=clock()-t;
+  //cout<<setprecision(0)<<fixed;
+  cout<<"timess: "<< ((float)t)/CLOCKS_PER_SEC <<" s"<<endl;
+
+  //show(r,tam);
 
 
   return 0;

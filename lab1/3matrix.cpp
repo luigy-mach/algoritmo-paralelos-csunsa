@@ -1,9 +1,12 @@
-#include<iostream>
-#include<stdlib.h>
+
+#include <stdlib.h>
+#include <iomanip>
+#include <iostream>
 #include <ctime>
 
 using namespace std;
 #define COTA 5
+
 
 void start(int **&a,int tam){
       a=new int*[tam];
@@ -45,7 +48,7 @@ void prodoct3loop(int **a,int **b ,int **r, int tam){
 };
 
 int main(){
-  int tam=3 ;
+  int tam=3;
   int **m1,**m2,**r;
   start(m1,tam);
     fill(m1,tam);
@@ -54,12 +57,18 @@ int main(){
   start(r,tam);
     fill(r,tam,0);
 
-  show(m1,tam);
-  show(m2,tam);
-  show(r,tam);
+  //show(m1,tam);
+  //show(m2,tam);
+  //show(r,tam);
+  float t=clock();
 
   prodoct3loop(m1,m2,r,tam);
-  show(r,tam);
+
+  t=clock()-t;
+  //cout<<setprecision(0)<<fixed;
+  cout<<"time: "<< ((float)t)/CLOCKS_PER_SEC <<" ms"<<endl;
+  
+  //show(r,tam);
 
 
   return 0;
