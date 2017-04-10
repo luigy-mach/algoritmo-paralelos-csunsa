@@ -25,4 +25,4 @@ sudo adduser $my_username sudo
 
 
 # paso 3 - ingresando a my_username
-./nfs-client.sh $my_username $my_pass $ip_server
+#./nfs-client.sh $my_username $my_pass $ip_server
