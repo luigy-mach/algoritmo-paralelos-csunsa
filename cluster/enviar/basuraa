@@ -1,0 +1,43 @@
+
+sudo apt-get install openmpi-bin #***** 
+
+sudo apt-get install mpi-default-dev #*****  importante
+
+
+
+
+qwerty@luigy-laptop:~/.ssh$ ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/qwerty/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/qwerty/.ssh/id_rsa.
+Your public key has been saved in /home/qwerty/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:2X09+UTYcnzgSZuzi70FXGmRpPV+9or9WoeJE/yIG/E qwerty@luigy-laptop
+The key's randomart image is:
++---[RSA 2048]----+
+|              ++.|
+|             ooX+|
+|             .OoO|
+|         o o ..Xo|
+|        S o + =o*|
+|           + O B=|
+|          o E * *|
+|           o + =.|
+|          . . =o.|
++----[SHA256]-----+
+
+
+qwerty@luigy-laptop:~/.ssh$ ssh test9@clientpc mkdir -p .ssh
+The authenticity of host 'clientpc (192.168.1.11)' can't be established.
+ECDSA key fingerprint is SHA256:okhAAcDFav0004zn4mgaG9zewGTTQVXQjnm9za16Q9Y.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'clientpc,192.168.1.11' (ECDSA) to the list of known hosts.
+test9@clientpc's password:
+
+qwerty@luigy-laptop:~$ cat .ssh/id_rsa.pub | ssh test9@clientpc 'cat >> .ssh/authorized_keys'
+test9@clientpc's password: 
+qwerty@luigy-laptop:~$ ssh test9@clientpc "chmod 700 .ssh; chmod 640 .ssh/authorized_keys"
+qwerty@luigy-laptop:~$ ssh test9@clientpc 
+

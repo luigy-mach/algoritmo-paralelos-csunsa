@@ -1,15 +1,17 @@
 #!/bin/bash      
 #variables
-my_ip=0.0.0.0 #default
-my_username=mpirun #default
+ip_server=192.168.1.4 #default
+
+my_username=mpirun4 #default
 my_pass=$my_username #default
+my_ip=0.0.0.0 #default
 
 
 #install
-#sudo apt-get install expect -y
-#sudo apt­-get install openssh-server -y
-#sudo apt-get install nfs-kernel-server -y
-#sudo apt-get install nfs-common -y
+sudo apt-get install expect -y
+sudo apt­-get install openssh-server -y
+sudo apt-get install nfs-kernel-server -y
+sudo apt-get install nfs-common -y
 
 
 # paso 1 - obteniendo IP
@@ -21,14 +23,6 @@ sudo adduser $my_username --gecos "$my_username $my_username,$my_username,$my_us
 echo "$my_username:$my_pass" | sudo chpasswd
 sudo adduser $my_username sudo
 
+
 # paso 3 - ingresando a my_username
-#./test.sh $my_username $my_pass 
-
-# paso 4
-
-
-# paso 5
-
-
-# paso 6    
- 
+./nfs-client.sh $my_username $my_pass $ip_server

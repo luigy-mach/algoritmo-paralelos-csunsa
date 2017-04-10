@@ -1,0 +1,342 @@
+bmpiuser@luigy-pc:~$ ls -la
+total 44
+drwxr-xr-x  4 mpiuser mpiuser 4096 awr  9 14:44 .
+drwxr-xr-x 17 root    root    4096 awr  9 14:31 ..
+-rw-------  1 mpiuser mpiuser   24 awr  9 14:44 .bash_history
+-rw-r--r--  1 mpiuser mpiuser  220 awr  9 14:31 .bash_logout
+-rw-r--r--  1 mpiuser mpiuser 3771 awr  9 14:31 .bashrc
+drwx------  2 mpiuser mpiuser 4096 awr  9 14:34 .cache
+-rw-r--r--  1 mpiuser mpiuser 8980 awr  9 14:31 examples.desktop
+-rw-r--r--  1 mpiuser mpiuser  655 awr  9 14:31 .profile
+drwx------  2 mpiuser mpiuser 4096 awr  9 14:50 .ssh
+mpiuser@luigy-pc:~$ chmod 777 -r .ssh/ 
+chmod: cannot access '777': No such file or directory
+mpiuser@luigy-pc:~$ chmod 777 -E .ssh/ 
+chmod: invalid option -- 'E'
+Try 'chmod --help' for more information.
+mpiuser@luigy-pc:~$ chmod 777 .ssh/
+mpiuser@luigy-pc:~$ chmod 777 .ssh/authorized_keys 
+mpiuser@luigy-pc:~$ ls -la
+total 44
+drwxr-xr-x  4 mpiuser mpiuser 4096 awr  9 14:44 .
+drwxr-xr-x 17 root    root    4096 awr  9 14:31 ..
+-rw-------  1 mpiuser mpiuser   24 awr  9 14:44 .bash_history
+-rw-r--r--  1 mpiuser mpiuser  220 awr  9 14:31 .bash_logout
+-rw-r--r--  1 mpiuser mpiuser 3771 awr  9 14:31 .bashrc
+drwx------  2 mpiuser mpiuser 4096 awr  9 14:34 .cache
+-rw-r--r--  1 mpiuser mpiuser 8980 awr  9 14:31 examples.desktop
+-rw-r--r--  1 mpiuser mpiuser  655 awr  9 14:31 .profile
+drwxrwxrwx  2 mpiuser mpiuser 4096 awr  9 14:50 .ssh
+mpiuser@luigy-pc:~$ logout
+Connection to 192.168.1.11 closed.
+mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11
+mpiuser@192.168.1.11's password: 
+Permission denied, please try again.
+mpiuser@192.168.1.11's password: 
+Permission denied, please try again.
+mpiuser@192.168.1.11's password: 
+Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-72-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+220 packages can be updated.
+0 updates are security updates.
+
+Last login: Sun Apr  9 14:53:57 2017 from 192.168.1.4
+mpiuser@luigy-pc:~$ cd ./s
+-bash: cd: ./s: No such file or directory
+mpiuser@luigy-pc:~$ cd .ssh/
+mpiuser@luigy-pc:~/.ssh$ ls
+mpiuser@luigy-pc:~/.ssh$ ls
+mpiuser@luigy-pc:~/.ssh$ logout
+Connection to 192.168.1.11 closed.
+mpiuser@luigy-laptop:~/.ssh$ ls
+id_dsa  id_dsa.pub  known_hosts
+mpiuser@luigy-laptop:~/.ssh$ rm *
+mpiuser@luigy-laptop:~/.ssh$ ssh-keygen -t dsa
+Generating public/private dsa key pair.
+Enter file in which to save the key (/home/mpiuser/.ssh/id_dsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/mpiuser/.ssh/id_dsa.
+Your public key has been saved in /home/mpiuser/.ssh/id_dsa.pub.
+The key fingerprint is:
+SHA256:bpTuqOlpeVThsWHaG+c8LB75iHDY6g+PX4QOaTMi1u8 mpiuser@luigy-laptop
+The key's randomart image is:
++---[DSA 1024]----+
+|                 |
+|        =        |
+|       = =       |
+|  .  ...*..      |
+|....*o..SO       |
+|.. o+=+== =      |
+|    .B.o== .     |
+|    =*o=o .      |
+|   +BE= .        |
++----[SHA256]-----+
+mpiuser@luigy-laptop:~/.ssh$ ls
+id_dsa  id_dsa.pub
+mpiuser@luigy-laptop:~/.ssh$ cat id_dsa
+-----BEGIN DSA PRIVATE KEY-----
+MIIBugIBAAKBgQDorYu7zxwKenD9sS7ixn6Bq1ZcUCPJEigNovkapIqeu7Vc8tub
+NcMR5ikyYiA68oE18BFl0DfqlCsOhvffts+Ky5XhAxAlFVdvvbNHrPNhjSi3u816
+MGnOdNj7mrMtwPL/vdt3aNuJxNiDP9UbEHXcu8drlBXV3dKIzpTKju38nwIVAPhW
+3X3svhXRaTKgVZ5n2JWqEU1JAoGAFNlJ0CsryAZ/yXjh88swa+pdohMizuSTMHx2
+c3eE7By/MrgwZMRB8ZM3lhxYp6xDEtwbWk0Z7yIZZwOlZBy8ojpAn58Bggvj24gn
+Qj304+gDVhzkHU67X/dqJz7b6e0RminSGWkkXf62kbcLaGgdiLLWTIFqWKGkpQlS
+Lv+VBz8CgYA0fvDTrdQn0U0UeJfMCVdpIDJaqBGddlvf3nYc9o+Qhk7oggPYVJEU
+iCRq8D4n2GXDDwDNJKmXlqEGvyYkomoWRIQh2QCdHf15+Tk5FOUMGP4lVG/AlPoR
+rz7kDzOXPHdPN+QzN01dZahfCtvGEtqLrfe5yms2YW3I1WQ++LnNYwIUc/0WJl+t
+ckPBW26VeB+EpaKH8MI=
+-----END DSA PRIVATE KEY-----
+mpiuser@luigy-laptop:~/.ssh$ cat id_dsa.pub 
+ssh-dss AAAAB3NzaC1kc3MAAACBAOiti7vPHAp6cP2xLuLGfoGrVlxQI8kSKA2i+Rqkip67tVzy25s1wxHmKTJiIDrygTXwEWXQN+qUKw6G99+2z4rLleEDECUVV2+9s0es82GNKLe7zXowac502Puasy3A8v+923do24nE2IM/1RsQddy7x2uUFdXd0ojOlMqO7fyfAAAAFQD4Vt197L4V0WkyoFWeZ9iVqhFNSQAAAIAU2UnQKyvIBn/JeOHzyzBr6l2iEyLO5JMwfHZzd4TsHL8yuDBkxEHxkzeWHFinrEMS3BtaTRnvIhlnA6VkHLyiOkCfnwGCC+PbiCdCPfTj6ANWHOQdTrtf92onPtvp7RGaKdIZaSRd/raRtwtoaB2IstZMgWpYoaSlCVIu/5UHPwAAAIA0fvDTrdQn0U0UeJfMCVdpIDJaqBGddlvf3nYc9o+Qhk7oggPYVJEUiCRq8D4n2GXDDwDNJKmXlqEGvyYkomoWRIQh2QCdHf15+Tk5FOUMGP4lVG/AlPoRrz7kDzOXPHdPN+QzN01dZahfCtvGEtqLrfe5yms2YW3I1WQ++LnNYw== mpiuser@luigy-laptop
+mpiuser@luigy-laptop:~/.ssh$ ssh-copy-id 192.168.1.11
+The authenticity of host '192.168.1.11 (192.168.1.11)' can't be established.
+ECDSA key fingerprint is SHA256:okhAAcDFav0004zn4mgaG9zewGTTQVXQjnm9za16Q9Y.
+Are you sure you want to continue connecting (yes/no)? yes
+/usr/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/usr/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+mpiuser@192.168.1.11's password: 
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh '192.168.1.11'"
+and check to make sure that only the key(s) you wanted were added.
+
+mpiuser@luigy-laptop:~/.ssh$ ls
+id_dsa  id_dsa.pub  known_hosts
+mpiuser@luigy-laptop:~/.ssh$ cat known_hosts 
+|1|xdVH0x1f9bXu35dUd98HKkpDY3c=|EfT4kWeggKDAjh7p6zSK2OQ3D6E= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBH+DNeIQxL9S/7a3oo3U5UnkqxVAXU9x/j3DF3EJyAEMc8llKLEBjmXUOXb4/ZQUUlP1vaTzCaS9txoCmJtWWZg=
+mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.1
+^C
+mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11
+mpiuser@192.168.1.11's password: 
+Permission denied, please try again.
+mpiuser@192.168.1.11's password: 
+Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-72-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+220 packages can be updated.
+0 updates are security updates.
+
+Last login: Sun Apr  9 14:55:21 2017 from 192.168.1.4
+mpiuser@luigy-pc:~$ cd .ssh/
+mpiuser@luigy-pc:~/.ssh$ ls
+authorized_keys
+mpiuser@luigy-pc:~/.ssh$ cat authorized_keys 
+ssh-dss AAAAB3NzaC1kc3MAAACBAIqf/pfxJ0xkZhO+Bc4yiyFTgyawTGbvGlyOWUMj9OByisanygc1MKTR/R8EIAMG2xipzZVpGUCCyiuTu2cjXBjlrzLZTBMmk/JYswGc50YDj6AaBSAeliTnI4d590027qeG4AOyL0gSaLlV/bmNIlM7NuTuGWvSIdBAkVGGGQvBAAAAFQCnikmUkHWvWyo79WW0ic4HqAlTyQAAAIAR3KQwjjDGwcqwyU3FFk/ZA3dYoXjcLhNuKelDMd8K6ZmUVOW1BKT1tuFYq8chewsH4Zj4rkAW6WE7wXMQqB3yeRV3sAO8B2faNI1MGyJzN/z4zfDQqFZ/uSG0dr4w60nttaw89+epNWmOBVEUe5e7xIF9CrnM9uqwf2tXyuWEuAAAAIBmMYvmej+0Uu7XYspGrYhuA2fiWO3jnB0MWzoEkghB250aufNNLxy5agrsyjeKfgBLAqE5YNZM1zxbH6KhFgowVRWyBXoVmFqnnmUFBfNZtAQpM4yE/tu8TCZEQe32FusXaCkOeW3THP3Lb5LXO9JBMTtDO2Ib/rsOCg3XeMHQBA== /home/mpiuser/.ssh/id_dsa
+mpiuser@luigy-pc:~/.ssh$ eval `ssh-agent`
+Agent pid 24164
+mpiuser@luigy-pc:~/.ssh$ logout
+Connection to 192.168.1.11 closed.
+mpiuser@luigy-laptop:~/.ssh$ eval `ssh-agent`
+Agent pid 22693
+mpiuser@luigy-laptop:~/.ssh$ ssh-add /home/mpiuser/.ssh/id_dsa
+Identity added: /home/mpiuser/.ssh/id_dsa (/home/mpiuser/.ssh/id_dsa)
+mpiuser@luigy-laptop:~/.ssh$ ls
+id_dsa  id_dsa.pub  known_hosts
+mpiuser@luigy-laptop:~/.ssh$ cat known_hosts 
+|1|xdVH0x1f9bXu35dUd98HKkpDY3c=|EfT4kWeggKDAjh7p6zSK2OQ3D6E= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBH+DNeIQxL9S/7a3oo3U5UnkqxVAXU9x/j3DF3EJyAEMc8llKLEBjmXUOXb4/ZQUUlP1vaTzCaS9txoCmJtWWZg=
+mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.11
+^C
+mpiuser@luigy-laptop:~/.ssh$ 
+mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11
+mpiuser@192.168.1.11's password: 
+Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-72-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+220 packages can be updated.
+0 updates are security updates.
+
+Last login: Sun Apr  9 14:58:21 2017 from 192.168.1.4
+mpiuser@luigy-pc:~$ ls
+examples.desktop
+mpiuser@luigy-pc:~$ cd .ssh/
+mpiuser@luigy-pc:~/.ssh$ ls
+authorized_keys
+mpiuser@luigy-pc:~/.ssh$ logout
+Connection to 192.168.1.11 closed.
+mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11
+mpiuser@192.168.1.11's password: 
+Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-72-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+220 packages can be updated.
+0 updates are security updates.
+
+Last login: Sun Apr  9 15:00:39 2017 from 192.168.1.4
+mpiuser@luigy-pc:~$ logout
+Connection to 192.168.1.11 closed.
+mpiuser@luigy-laptop:~/.ssh$ ls
+id_dsa  id_dsa.pub  known_hosts
+mpiuser@luigy-laptop:~/.ssh$ rm *
+mpiuser@luigy-laptop:~/.ssh$ ssh-key -t rsa
+ssh-key: command not found
+mpiuser@luigy-laptop:~/.ssh$ ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/home/mpiuser/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /home/mpiuser/.ssh/id_rsa.
+Your public key has been saved in /home/mpiuser/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:4B67GNpRb8rmyEPtsqDEIJxcBk3JjXfLCXr3jML8D8k mpiuser@luigy-laptop
+The key's randomart image is:
++---[RSA 2048]----+
+| .+.+            |
+|  .= + .         |
+|   oo = o        |
+|o +. o *         |
+|o+  +.= S        |
+|+   .*o=.o       |
+| o..o.=Eo        |
+|.. =o*o=.        |
+|. . **= ..       |
++----[SHA256]-----+
+mpiuser@luigy-laptop:~/.ssh$ cat id_rsa.pub | ssh 192.168.1.11 'cat >> /home/mpiuser/.ssh/authorized_keys'
+The authenticity of host '192.168.1.11 (192.168.1.11)' can't be established.
+ECDSA key fingerprint is SHA256:okhAAcDFav0004zn4mgaG9zewGTTQVXQjnm9za16Q9Y.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '192.168.1.11' (ECDSA) to the list of known hosts.
+mpiuser@192.168.1.11's password: 
+mpiuser@luigy-laptop:~/.ssh$ ls
+id_rsa  id_rsa.pub  known_hosts
+mpiuser@luigy-laptop:~/.ssh$ ca id_rsa.pub 
+ca: command not found
+mpiuser@luigy-laptop:~/.ssh$ cat id_rsa.pub 
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDC2cM3J6htyUqZz3sefW6sH+TDAPVzn8nS43Qb0iIfybiAmO5LMSOM+cb+58svKPJCKG0iY3DfV7+u5UB9vc9TpY8/HkDp4PNovkmKX/VNv5fF8jFbtLIV7/sBVBXe3AekjTw69L2QWexuOnb3YqU4Rvw4MdztCyr+T4zUXlrfYyHHbtvjSXCs/Ysd4z9rjQDDRjBETOc/MTMm9Zlvhq6eG5R1F/SKytC11Pwa8CT7B0XSzYNTGXWRVG93KyjPEudNWT+wjROxsnOO84lwHrzSG1UjSezXEkLarvhR2nCBMvOrO1AEREtuPTUZndVdecS6djSs6/G/gQqNCrZ5d8DV mpiuser@luigy-laptop
+mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11
+mpiuser@192.168.1.11's password: 
+Permission denied, please try again.
+mpiuser@192.168.1.11's password: 
+
+mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11
+mpiuser@192.168.1.11's password: 
+Permission denied, please try again.
+mpiuser@192.168.1.11's password: 
+Permission denied, please try again.
+mpiuser@192.168.1.11's password: 
+Permission denied (publickey,password).
+mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11 "chmod 700 ~/.ssh; chmod 640 ~/.ssh/authorized_keys"
+mpiuser@192.168.1.11's password: 
+mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11
+Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-72-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+220 packages can be updated.
+0 updates are security updates.
+
+Last login: Sun Apr  9 15:02:42 2017 from 192.168.1.4
+mpiuser@luigy-pc:~$ mkdir cloud
+mpiuser@luigy-pc:~$ ls
+cloud  examples.desktop
+mpiuser@luigy-pc:~$ cat /etc/exports
+cat: /etc/exports: No such file or directory
+mpiuser@luigy-pc:~$ ls
+cloud  examples.desktop
+mpiuser@luigy-pc:~$ rm -r cloud/
+mpiuser@luigy-pc:~$ ls
+examples.desktop
+mpiuser@luigy-pc:~$ logout
+Connection to 192.168.1.11 closed.
+mpiuser@luigy-laptop:~/.ssh$ mkdir cloud
+mpiuser@luigy-laptop:~/.ssh$ rm -r cloud/
+mpiuser@luigy-laptop:~/.ssh$ cd ..
+mpiuser@luigy-laptop:~$ mkdir cloud
+mpiuser@luigy-laptop:~$ ls
+cloud  examples.desktop
+mpiuser@luigy-laptop:~$ cd cloud/
+mpiuser@luigy-laptop:~/cloud$ ls
+mpiuser@luigy-laptop:~/cloud$ ls
+mpiuser@luigy-laptop:~/cloud$ cd /home/mpiuser/
+mpiuser@luigy-laptop:~$ ls
+cloud  examples.desktop
+mpiuser@luigy-laptop:~$ cd cloud/
+mpiuser@luigy-laptop:~/cloud$ ls
+mpiuser@luigy-laptop:~/cloud$ ls
+mpiuser@luigy-laptop:~/cloud$ touch qqq
+mpiuser@luigy-laptop:~/cloud$ ls
+qqq
+mpiuser@luigy-laptop:~/cloud$ ls
+intocable  qqq
+mpiuser@luigy-laptop:~/cloud$ cat intocable 
+mpiuser@luigy-laptop:~/cloud$ ls
+intocable  qqq
+mpiuser@luigy-laptop:~/cloud$ ls -la
+total 8
+drwxrwxr-x 2 mpiuser mpiuser 4096 Apr  9 15:24 .
+drwxr-xr-x 5 mpiuser mpiuser 4096 Apr  9 15:11 ..
+-rw-r--r-- 1 root    root       0 Apr  9 15:24 intocable
+-rw-rw-r-- 1 mpiuser mpiuser    0 Apr  9 15:23 qqq
+mpiuser@luigy-laptop:~/cloud$ ls
+qqq
+mpiuser@luigy-laptop:~/cloud$ touch mpi.c
+mpiuser@luigy-laptop:~/cloud$ gedit mpi.c 
+No protocol specified
+Failed to connect to Mir: Failed to connect to server socket: Permission denied
+Unable to init server: Could not connect: Connection refused
+
+(gedit:23114): Gtk-WARNING **: cannot open display: :0
+mpiuser@luigy-laptop:~/cloud$ exit
+luigy@luigy-laptop:/home/qwerty/cloud$ cd /home/mpiuser/cloud/
+luigy@luigy-laptop:/home/mpiuser/cloud$ ls
+mpi.c  qqq
+luigy@luigy-laptop:/home/mpiuser/cloud$ gedit mpi.c 
+luigy@luigy-laptop:/home/mpiuser/cloud$ mpicc -o mpi mpi.c 
+/usr/bin/ld: cannot open output file mpi: Permission denied
+collect2: error: ld returned 1 exit status
+luigy@luigy-laptop:/home/mpiuser/cloud$ su mpiuser
+Password: 
+mpiuser@luigy-laptop:~/cloud$ 
+mpiuser@luigy-laptop:~/cloud$ ls
+mpi.c  qqq
+mpiuser@luigy-laptop:~/cloud$ mpicc -o mpi mpi.c 
+/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o: In function `_start':
+(.text+0x20): undefined reference to `main'
+collect2: error: ld returned 1 exit status
+mpiuser@luigy-laptop:~/cloud$ mpicc -o mpi mpi.c 
+/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crt1.o: In function `_start':
+(.text+0x20): undefined reference to `main'
+collect2: error: ld returned 1 exit status
+mpiuser@luigy-laptop:~/cloud$ ls
+mpi.c  qqq
+mpiuser@luigy-laptop:~/cloud$ cat mpi.c 
+mpiuser@luigy-laptop:~/cloud$ mpicc -o mpi mpi.c 
+mpiuser@luigy-laptop:~/cloud$ ls
+mpi  mpi.c  qqq
+mpiuser@luigy-laptop:~/cloud$ mpirun -np 2 ./mpi
+Hello world from processor luigy-laptop, rank 0 out of 2 processors
+Hello world from processor luigy-laptop, rank 1 out of 2 processors
+mpiuser@luigy-laptop:~/cloud$ ssh 192.168.1.11
+Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-72-generic x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/advantage
+
+220 packages can be updated.
+0 updates are security updates.
+
+Last login: Sun Apr  9 15:07:52 2017 from 192.168.1.4
+mpiuser@luigy-pc:~$ logout
+Connection to 192.168.1.11 closed.
+mpiuser@luigy-laptop:~/cloud$ mpirun -np 2 -host 192.168.1.11,192.168.1.4 ./mpi
+Hello world from processor luigy-laptop, rank 1 out of 2 processors
+Hello world from processor luigy-pc, rank 0 out of 2 processors
+mpiuser@luigy-laptop:~/cloud$ 
+
