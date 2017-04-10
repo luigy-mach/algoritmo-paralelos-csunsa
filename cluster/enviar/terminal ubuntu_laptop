@@ -182,8 +182,12 @@ Connection to 192.168.1.11 closed.
 mpiuser@luigy-laptop:~/.ssh$ ls
 id_dsa  id_dsa.pub  known_hosts
 mpiuser@luigy-laptop:~/.ssh$ rm *
-mpiuser@luigy-laptop:~/.ssh$ ssh-key -t rsa
-ssh-key: command not found
+
+
+
+
+------------------------------------------------------------------------------------------------------------
+
 mpiuser@luigy-laptop:~/.ssh$ ssh-keygen -t rsa
 Generating public/private rsa key pair.
 Enter file in which to save the key (/home/mpiuser/.ssh/id_rsa): 
@@ -211,49 +215,16 @@ ECDSA key fingerprint is SHA256:okhAAcDFav0004zn4mgaG9zewGTTQVXQjnm9za16Q9Y.
 Are you sure you want to continue connecting (yes/no)? yes
 Warning: Permanently added '192.168.1.11' (ECDSA) to the list of known hosts.
 mpiuser@192.168.1.11's password: 
-mpiuser@luigy-laptop:~/.ssh$ ls
-id_rsa  id_rsa.pub  known_hosts
-mpiuser@luigy-laptop:~/.ssh$ ca id_rsa.pub 
-ca: command not found
-mpiuser@luigy-laptop:~/.ssh$ cat id_rsa.pub 
-ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDC2cM3J6htyUqZz3sefW6sH+TDAPVzn8nS43Qb0iIfybiAmO5LMSOM+cb+58svKPJCKG0iY3DfV7+u5UB9vc9TpY8/HkDp4PNovkmKX/VNv5fF8jFbtLIV7/sBVBXe3AekjTw69L2QWexuOnb3YqU4Rvw4MdztCyr+T4zUXlrfYyHHbtvjSXCs/Ysd4z9rjQDDRjBETOc/MTMm9Zlvhq6eG5R1F/SKytC11Pwa8CT7B0XSzYNTGXWRVG93KyjPEudNWT+wjROxsnOO84lwHrzSG1UjSezXEkLarvhR2nCBMvOrO1AEREtuPTUZndVdecS6djSs6/G/gQqNCrZ5d8DV mpiuser@luigy-laptop
-mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11
-mpiuser@192.168.1.11's password: 
-Permission denied, please try again.
-mpiuser@192.168.1.11's password: 
 
-mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11
-mpiuser@192.168.1.11's password: 
-Permission denied, please try again.
-mpiuser@192.168.1.11's password: 
-Permission denied, please try again.
-mpiuser@192.168.1.11's password: 
-Permission denied (publickey,password).
+
+
 mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11 "chmod 700 ~/.ssh; chmod 640 ~/.ssh/authorized_keys"
 mpiuser@192.168.1.11's password: 
-mpiuser@luigy-laptop:~/.ssh$ ssh 192.168.1.11
-Welcome to Ubuntu 16.04.1 LTS (GNU/Linux 4.4.0-72-generic x86_64)
+mpiuser@luigy-pc:~$ mkdir ~/cloud
 
- * Documentation:  https://help.ubuntu.com
- * Management:     https://landscape.canonical.com
- * Support:        https://ubuntu.com/advantage
 
-220 packages can be updated.
-0 updates are security updates.
 
-Last login: Sun Apr  9 15:02:42 2017 from 192.168.1.4
-mpiuser@luigy-pc:~$ mkdir cloud
-mpiuser@luigy-pc:~$ ls
-cloud  examples.desktop
-mpiuser@luigy-pc:~$ cat /etc/exports
-cat: /etc/exports: No such file or directory
-mpiuser@luigy-pc:~$ ls
-cloud  examples.desktop
-mpiuser@luigy-pc:~$ rm -r cloud/
-mpiuser@luigy-pc:~$ ls
-examples.desktop
-mpiuser@luigy-pc:~$ logout
-Connection to 192.168.1.11 closed.
+
 mpiuser@luigy-laptop:~/.ssh$ mkdir cloud
 mpiuser@luigy-laptop:~/.ssh$ rm -r cloud/
 mpiuser@luigy-laptop:~/.ssh$ cd ..
@@ -285,6 +256,9 @@ drwxr-xr-x 5 mpiuser mpiuser 4096 Apr  9 15:11 ..
 -rw-rw-r-- 1 mpiuser mpiuser    0 Apr  9 15:23 qqq
 mpiuser@luigy-laptop:~/cloud$ ls
 qqq
+
+
+
 mpiuser@luigy-laptop:~/cloud$ touch mpi.c
 mpiuser@luigy-laptop:~/cloud$ gedit mpi.c 
 No protocol specified

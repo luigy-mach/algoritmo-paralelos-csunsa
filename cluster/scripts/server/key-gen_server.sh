@@ -1,7 +1,7 @@
 #!/usr/bin/expect
 set USER [lindex $argv 0]
 set PASS [lindex $argv 1]
-set IP [lindex $argv 2]
+#set IP [lindex $argv 2]
 #spawn su -s $USER
 #expect "Password: "
 #send  "$PASS\r"
@@ -17,8 +17,6 @@ expect "Enter file in which to save the key (/home/$USER/.ssh/id_rsa): " {send "
 #send  "Y\r"
 expect "Enter passphrase (empty for no passphrase): " {send "\r"}
 expect "Enter same passphrase again: " {send "\r"}
-
-spawn su $USER -c "ssh $IP cloud -p /home/$USER/.ssh"
 
 expect eof
 
