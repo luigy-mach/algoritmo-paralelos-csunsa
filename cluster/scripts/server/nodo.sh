@@ -1,7 +1,7 @@
 #!/bin/bash      
 #variables
 my_ip=0.0.0.0 #default
-my_username=mpirun6 #default
+my_username=mpitest #default
 my_pass=$my_username #default
 
 

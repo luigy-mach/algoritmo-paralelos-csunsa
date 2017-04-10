@@ -4,9 +4,17 @@ set PASS [lindex $argv 1]
 set IP [lindex $argv 2]
 
 spawn su $USER -c "ssh $IP mkdir -p /home/$USER/.ssh"
+expect "Password: "
+send  "$PASS\r"
 spawn su $USER -c "cat ~/.ssh/id_rsa.pub | ssh $IP 'cat >> ~/.ssh/authorized_keys'"
+expect "Password: "
+send  "$PASS\r"
 spawn su $USER -c "ssh $IP \"chmod 700 .ssh; chmod 640 .ssh/authorized_keys\""
+expect "Password: "
+send  "$PASS\r"
 spawn su $USER -c "ssh $IP cloud -p /home/$USER/.ssh"
+expect "Password: "
+send  "$PASS\r"
 
 
 

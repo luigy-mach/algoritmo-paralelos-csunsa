@@ -8,6 +8,11 @@ set PASS [lindex $argv 1]
 spawn su $USER -c "whoami"
 expect "Password: "
 send  "$PASS\r"
+
+spawn su $USER -c "mkdir ~/cloud"
+expect "Password: "
+send  "$PASS\r"
+
 spawn su $USER -c "ssh-keygen -t rsa"
 expect "Password: "
 send  "$PASS\r"
