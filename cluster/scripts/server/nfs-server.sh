@@ -3,7 +3,7 @@ set USER [lindex $argv 0]
 set PASS [lindex $argv 1]
 set IP [lindex $argv 2]
 
-spawn su $USER -c "ssh $IP mkdir -p /home/$USER/.ssh"
+spawn su $USER -c "ssh $IP mkdir -p /home/$USER/.ssh"	
 expect "Password: "
 send  "$PASS\r"
 spawn su $USER -c "cat ~/.ssh/id_rsa.pub | ssh $IP 'cat >> ~/.ssh/authorized_keys'"
