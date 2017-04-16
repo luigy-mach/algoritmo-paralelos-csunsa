@@ -1,0 +1,15 @@
+/home/mpiuser/cloud  *(rw,sync,no_root_squash,no_subtree_check)
+/home/mpiuser/cloud2  *(rw,sync,no_root_squash,no_subtree_check)
+/home/mpiuser/cloud3  *(rw,sync,no_root_squash,no_subtree_check)
+/home/mpiuser/cloud4  *(rw,sync,no_root_squash,no_subtree_check)
+/home/mpiuser/cloud5  *(rw,sync,no_root_squash,no_subtree_check)
+/home/mpiuser/cloud6  *(rw,sync,no_root_squash,no_subtree_check)
+
+
+
+
+
+sudo exportfs -a
+
+
+sudo service nfs-kernel-server restart

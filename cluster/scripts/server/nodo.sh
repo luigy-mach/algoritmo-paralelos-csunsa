@@ -1,15 +1,15 @@
 #!/bin/bash      
 #variables
 my_ip=0.0.0.0 #default
-my_username=mpirun #default
+my_username=mpitest #default
 my_pass=$my_username #default
 
 
 #install
-#sudo apt-get install expect -y
-#sudo apt­-get install openssh-server -y
-#sudo apt-get install nfs-kernel-server -y
-#sudo apt-get install nfs-common -y
+sudo apt-get install expect -y
+sudo apt­-get install openssh-server -y
+sudo apt-get install nfs-kernel-server -y
+sudo apt-get install nfs-common -y
 
 
 # paso 1 - obteniendo IP
