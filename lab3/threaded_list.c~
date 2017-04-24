@@ -367,8 +367,10 @@ void Get_input(int* inserts_in_main_p) {
    printf("How many total ops should the threads execute?\n");
    scanf("%d", &total_ops);
    printf("Percent of ops that should be searches? (between 0 and 1)\n");
+	search_percent = 0.85;
    scanf("%lf", &search_percent);
    printf("Percent of ops that should be inserts? (between 0 and 1)\n");
    scanf("%lf", &insert_percent);
+	insert_percent = 0.95;
    delete_percent = 1.0 - (search_percent + insert_percent);
 }  
