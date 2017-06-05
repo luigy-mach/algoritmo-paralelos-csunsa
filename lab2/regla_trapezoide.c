@@ -13,9 +13,12 @@ double trap( double left_endpt,
 	double estimate, x;
 	int i;
 
+	if(right_endpt){
+
+	}
 	estimate=(f(left_endpt)+f(right_endpt))/2.0;
 	for(i=0;i<=trap_count-1;i++){
-		x=left_endpt+i*base_len;
+		x=left_endpt+i*	;
 		estimate += f(x);
 	}
 	estimate=estimate*base_len;
@@ -50,11 +53,19 @@ int main(){
 	MPI_Comm_size(MPI_COMM_WORLD,&comm_sz);
 
 	h		= (b-a)/n;
-	local_n = n/comm_sz;
-
+	if((n%comm_sz)!=0){
+		local_n = (n/comm_sz)+1;
+	}else{
+		local_n = n/comm_sz;
+	}
 	local_a   = a + my_rank*local_n*h;
 	local_b   = local_a + local_n*h;
-	local_int = trap(local_a,local_b,local_n, h);
+	if(local_b > b){
+		local_int = trap(local_a, b ,local_n, h);	
+	}else{
+		local_int = trap(local_a,local_b,local_n, h);
+	}
+	
 
 	if(my_rank!=0){
 		printf("soy el proceso = %d \n", my_rank);
