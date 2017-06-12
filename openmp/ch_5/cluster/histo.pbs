@@ -1,0 +1,12 @@
+#!/bin/bash
+### Job name
+#PBS -N histogramluigy
+### Max run time
+###PBS -l walltime=00:00:10
+### Queue name
+#PBS -q batch
+### Number of nodes and processors per node
+#PBS -l nodes=1:ppn=24
+cd ${PBS_O_WORKDIR}
+./histogram
+
