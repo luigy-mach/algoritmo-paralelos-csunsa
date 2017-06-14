@@ -1,0 +1,3 @@
+/home/luigy/Desktop/paralelos/algoritmo-paralelos-csunsa_github/PMPP-3rd_new/opencv_test/CMakeFiles/edit_cache.dir
+/home/luigy/Desktop/paralelos/algoritmo-paralelos-csunsa_github/PMPP-3rd_new/opencv_test/CMakeFiles/rebuild_cache.dir
+/home/luigy/Desktop/paralelos/algoritmo-paralelos-csunsa_github/PMPP-3rd_new/opencv_test/CMakeFiles/display.dir

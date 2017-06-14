@@ -1,0 +1,16 @@
+-pthread y openMP, ambas usan programacion en memoria compartida.
+-pthreads requiere q el programador especifique explícitamente el comportamiento de cada subproceso. OpenMp deja eso de lado.
+-tanto pthread y openMp son bibliotecas de funciones que se puede vincular a un programa C.
+-pthread solo requiere un compilador C y el sistema tengan una libreria pthreads
+OpenMp requiere el soporte el compilador para algunas operaciones, 
+pthreads permite especificar cada detalle del comportamiento de cada hilo.
+OpenMp permite q el compilador y el sistema en tiempo de ejecuccion determinen estos detalles de comportamiento.
+-OpenMP was explicitly designed to allow programmers to incrementally parallelize existing serial programs; this is virtually impossible with MPI and fairly difficult with
+Pthreads.
+
+
+
+---------------------------------------------------------------
+
+int x
+# pragma omp parallel num threads(thread count) private(x)

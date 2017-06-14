@@ -90,9 +90,9 @@ int main(){
 	fill(mat_b,n);
 	fill_zero(mat_c,n);
 
-	int ***d_mat_a;
-	int ***d_mat_b;
-	int ***d_mat_c;
+	int **d_mat_a;
+	int **d_mat_b;
+	int **d_mat_c;
 	int size = sizeof(int*) * n * sizeof(int) * n;
 	
 	int i,j;
@@ -100,9 +100,9 @@ int main(){
 	int size_row=sizeof(int*)*n;
 	int size_col=sizeof(int)*n;
 
-	cudaMalloc((void*** )*d_mat_a,size_row);
+	cudaMalloc((void*** )&d_mat_a,size_row);
 	for(i=0;i<n;i++){
-		cudaMalloc((void**)*d_mat_a[i],size_col);
+		cudaMalloc((void**)&d_mat_a[i],size_col);
 	}
 
 	cudaMalloc((void*** )&d_mat_b,size_row);
