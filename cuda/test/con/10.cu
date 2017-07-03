@@ -127,7 +127,7 @@ void create(int**& mat, int**& d_mat, int**& dd_mat, int n, int m, int fillValue
 
 int main(){
 
-	int tam = 7000;
+	int tam = 10000;
 	///////////////////////////////
 	int n = tam;
 	int m = tam;

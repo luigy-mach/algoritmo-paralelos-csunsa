@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define WIDTH_TILE 70
+//#define WIDTH_TILE 70
 #define TPB 32
 
 
@@ -127,7 +127,7 @@ void create(int**& mat, int**& d_mat, int**& dd_mat, int n, int m, int fillValue
 
 int main(){
 
-	int tam = 7000;
+	int tam = 10000;
 	///////////////////////////////
 	int n = tam;
 	int m = tam;
@@ -170,8 +170,8 @@ int main(){
 
 	///////////////////////////////////////// TIME
     cudaEventRecord(my_start,0);
-	matrix_mult_shared<<<grid,blockNum>>>(dd_mat_a,dd_mat_b,dd_mat_c,n);
-	//matrix_mult<<<grid,blockNum>>>(dd_mat_a,dd_mat_b,dd_mat_c,n);
+	//matrix_mult_shared<<<grid,blockNum>>>(dd_mat_a,dd_mat_b,dd_mat_c,n);
+	matrix_mult<<<grid,blockNum>>>(dd_mat_a,dd_mat_b,dd_mat_c,n);
     cudaEventRecord(my_stop,0);
     cudaEventSynchronize(my_stop);
     /////////////////////////////////////////////////////
