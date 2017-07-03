@@ -1,0 +1,51 @@
+resulados serial
+-----------------
+time 800: 2.77993
+time 700: 1.29723
+time 600: 0.791468
+time 500: 0.497129
+time 400: 0.368507
+time 300: 0.100598
+time 200: 0.068167
+
+
+
+
+resulados cuda CON memoria compartida tile 70
+-----------------
+
+elapsed_time 70 X 70, tam=2000  : 0.002400000113994
+elapsed_time 70 X 70, tam=4000  : 0.0024031999891996
+elapsed_time 70 X 70, tam=6000  : 0.002411999891996
+elapsed_time 70 X 70, tam=8000  : 0.002430000113994
+elapsed_time 70 X 70, tam=10000 : 0.002459999891996
+
+
+resulados cuda CON memoria compartida tile 35
+-----------------
+elapsed_time 35 X 35, tam=2000  : 0.0026400011113992
+elapsed_time 35 X 35, tam=4000  : 0.0026400000113994
+elapsed_time 35 X 35, tam=6000  : 0.0026431999891996
+elapsed_time 35 X 35, tam=8000  : 0.0026470000113997
+elapsed_time 35 X 35, tam=10000 : 0.0026499999113999
+|
+
+
+
+resulados cuda SIN memoria compartida tile 35
+-----------------
+elapsed_time 70 X 70, tam=800   : 0.001400000113994
+elapsed_time 70 X 70, tam=1000  : 0.001490000113994
+elapsed_time 70 X 70, tam=2000  : 0.001888000057079
+elapsed_time 70 X 70, tam=4000  : 0.002400999891996
+elapsed_time 70 X 70, tam=6000  : 0.002409799891996
+elapsed_time 70 X 70, tam=8000  : 0.002481900891996
+elapsed_time 70 X 70, tam=10000 : 0.002439999891996
+
+
+
+
+
+
+
+
