@@ -39,9 +39,10 @@ Kernel execution timeout:      Yes
 
 
 
+
 __global__ void matrix_mult_shared(int** dd_mat_a, int n_rows_a, int n_cols_a ,int** dd_mat_b, int n_rows_b, int n_cols_b, int** dd_mat_c, int n_rows_c, int n_cols_c){
 
-
+	
 	__shared__ int Mds[WIDTH_TILE][WIDTH_TILE];
 	__shared__ int Nds[WIDTH_TILE][WIDTH_TILE];
 
@@ -89,14 +90,16 @@ __global__ void matrix_mult_shared(int** dd_mat_a, int n_rows_a, int n_cols_a ,i
 	
 
 }
+
 
 
 
 __global__ void matrix_mult_shared_mejorado(int** dd_mat_a, int n_rows_a, int n_cols_a ,int** dd_mat_b, int n_rows_b, int n_cols_b, int** dd_mat_c, int n_rows_c, int n_cols_c){
 
 
-	__shared__ int Mds[WIDTH_TILE][WIDTH_TILE];
-	__shared__ int Nds[WIDTH_TILE][WIDTH_TILE];
+	__shared__ int Mds [WIDTH_TILE][WIDTH_TILE];
+	__shared__ int Nds1[WIDTH_TILE][WIDTH_TILE];
+	__shared__ int Nds2[WIDTH_TILE][WIDTH_TILE];
 
 	int bx=blockIdx.x;
 	int by=blockIdx.y;
@@ -120,17 +123,31 @@ __global__ void matrix_mult_shared_mejorado(int** dd_mat_a, int n_rows_a, int n_
 			Mds[ty][tx] = 0;
         }
 
-        if (k*WIDTH_TILE+ty < n_rows_b && col < n_cols_b){
-			Nds[ty][tx] = dd_mat_b[k*WIDTH_TILE+ty][col];
+        if (k*(WIDTH_TILE+0)+ty < n_rows_b && col < n_cols_b){
+			Nds1[ty][tx] = dd_mat_b[k*(WIDTH_TILE+0)+ty][col];
         }
         else{
-			Nds[ty][tx] = 0;
+			Nds1[ty][tx] = 0;
         }
+
+        if (k*(WIDTH_TILE+1)+ty < n_rows_b && col < n_cols_b){
+			Nds2[ty][tx] = dd_mat_b[k*(WIDTH_TILE+1)+ty][col];
+        }
+        else{
+			Nds2[ty][tx] = 0;
+        }
+
 
 		__syncthreads();
 		int m;
 		for(m=0 ; m<WIDTH_TILE ; ++m){
-			value += Mds[ty][m]*Nds[m][tx];
+			value += Mds[ty][m]*Nds1[m][tx];
+		}
+		__syncthreads();
+
+		int m;
+		for(m=0 ; m<WIDTH_TILE ; ++m){
+			value += Mds[ty][m]*Nds2[m][tx];
 		}
 		__syncthreads();
 
@@ -138,10 +155,16 @@ __global__ void matrix_mult_shared_mejorado(int** dd_mat_a, int n_rows_a, int n_
 
 	if(row<n_rows_c && col<n_cols_c){
 		dd_mat_c[row][col]=value;
+		//dd_mat_c[row][col]=value;
 	}
 	
 
 }
+
+
+
+
+
 
 
 
@@ -235,7 +258,7 @@ void create(int**& mat, int**& d_mat, int**& dd_mat, int n, int m, int fillValue
 
 int main(){
 
-	int tam = 3000;
+	int tam = 10;
 
 	int n = tam;
 	int m = tam;
@@ -274,7 +297,8 @@ int main(){
     cudaEventRecord(my_start,0);
 
 
-	matrix_mult_shared<<<grid,blockNum>>>(dd_mat_a,n,m,dd_mat_b,p,q,dd_mat_c,n,q);
+	matrix_mult_shared_mejorado<<<grid,blockNum>>>(dd_mat_a,n,m,dd_mat_b,p,q,dd_mat_c,n,q);
+	//matrix_mult_shared<<<grid,blockNum>>>(dd_mat_a,n,m,dd_mat_b,p,q,dd_mat_c,n,q);
 	//matrix_mult<<<grid,blockNum>>>(dd_mat_a,dd_mat_b,dd_mat_c,n,m);
 	
     cudaEventRecord(my_stop,0);
@@ -288,7 +312,7 @@ int main(){
 	cudaMemcpy(mat_c[0],d_mat_c[0],sizeof(int)*n*q,cudaMemcpyDeviceToHost);		
 
 	
-	/*
+	
 	printf("//////////////////\n");
 	printf("//////////////////\n");
 	print(mat_a,n,m);
@@ -297,7 +321,7 @@ int main(){
 
 	printf("//////////////////\n");
 	print(mat_c,n,q);
-	*/
+	
 	
 
 
