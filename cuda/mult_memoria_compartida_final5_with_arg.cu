@@ -34,6 +34,9 @@ Kernel execution timeout:      Yes
 #include <stdlib.h>
 #include <stdio.h>
 
+#include <stdbool.h>
+#include <unistd.h>
+
 
 #define WIDTH_TILE 32
 
@@ -92,12 +95,10 @@ __global__ void matrix_mult_shared(int** dd_mat_a, int n_rows_a, int n_cols_a ,i
 
 
 
-
 __global__ 
 //void matrix_mult(int** dd_mat_a,int** dd_mat_b,int** dd_mat_c, int n, int m){
 void matrix_mult(int** dd_mat_a, int n_rows_a, int n_cols_a ,int** dd_mat_b, int n_rows_b, int n_cols_b, int** dd_mat_c, int n_rows_c, int n_cols_c){
 	int value=0;
-
 
 	int tx=threadIdx.x;
 	int ty=threadIdx.y;
@@ -114,7 +115,6 @@ void matrix_mult(int** dd_mat_a, int n_rows_a, int n_cols_a ,int** dd_mat_b, int
 		dd_mat_c[y][x]=value;
 	} 
 }
-
 
 
 void fill(int** mat, int n, int m){
@@ -181,9 +181,11 @@ void create(int**& mat, int**& d_mat, int**& dd_mat, int n, int m, int fillValue
 
 
 
-int main(){
+int main(int argc, char *argv[]){
 
-	int tam = 3000;
+	
+
+	int tam = atoi(argv[1]);
 
 	int n = tam;
 	int m = tam;
@@ -207,7 +209,7 @@ int main(){
 
 
 	/////////////////////////////////////////
-	float time;
+	float time1, time2;
 	cudaEvent_t my_start,my_stop;
 	cudaEventCreate(&my_start);
 	cudaEventCreate(&my_stop);
@@ -215,27 +217,36 @@ int main(){
 
 	dim3 blockNum(WIDTH_TILE,WIDTH_TILE,1);
 	dim3 grid((int)(n-1+blockNum.x)/blockNum.x,(int)(q-1+blockNum.y)/blockNum.y,1);
-	printf("tx: %d,ty: %d\n",(int)(n-1+blockNum.x)/blockNum.x,(int)(q-1+blockNum.y)/blockNum.y);
-	printf("grid_row: %d, grid_col: %d\n",grid.y , grid.x );
+	//printf("tx: %d,ty: %d\n",(int)(n-1+blockNum.x)/blockNum.x,(int)(q-1+blockNum.y)/blockNum.y);
+	//printf("grid_row: %d, grid_col: %d\n",grid.y , grid.x );
 
-	///////////////////////////////////////// TIME
+	///////////////////////////////////////// TIME1
     cudaEventRecord(my_start,0);
 
-
 	matrix_mult_shared<<<grid,blockNum>>>(dd_mat_a,n,m,dd_mat_b,p,q,dd_mat_c,n,q);
-	//matrix_mult<<<grid,blockNum>>>(dd_mat_a,dd_mat_b,dd_mat_c,n,m);
+		
+    cudaEventRecord(my_stop,0);
+    cudaEventSynchronize(my_stop);
+    cudaEventElapsedTime(&time1,my_start,my_stop);
+    /////////////////////////////////////////////////////
+
+    ///////////////////////////////////////// TIME2
+    cudaEventRecord(my_start,0);
+	
+	matrix_mult<<<grid,blockNum>>>(dd_mat_a,n,m,dd_mat_b,p,q,dd_mat_c,n,q);
 	
     cudaEventRecord(my_stop,0);
     cudaEventSynchronize(my_stop);
+    cudaEventElapsedTime(&time2,my_start,my_stop);
     /////////////////////////////////////////////////////
 
 
-    cudaEventElapsedTime(&time,my_start,my_stop);
-	printf("time %dX%d , tam %d : %.25f \n",WIDTH_TILE,WIDTH_TILE,tam,time/1000);
+	//printf("time %dX%d , tam %d : %.25f \n",WIDTH_TILE,WIDTH_TILE,tam,time/1000);
+
+	printf("%.25f,%.25f",time1/1000,time2/1000);
 
 	cudaMemcpy(mat_c[0],d_mat_c[0],sizeof(int)*n*q,cudaMemcpyDeviceToHost);		
 
-	
 	/*
 	printf("//////////////////\n");
 	printf("//////////////////\n");
@@ -246,7 +257,6 @@ int main(){
 	printf("//////////////////\n");
 	print(mat_c,n,q);
 	*/
-	
 
 
 	cudaFree(dd_mat_a);
