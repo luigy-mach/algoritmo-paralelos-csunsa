@@ -11,6 +11,8 @@ with open('data1.csv', 'rb') as f:
     y1=[]
     x2=[]
     y2=[]
+    x3=[]
+    y3=[]
   
 
     for row in reader:
@@ -18,22 +20,27 @@ with open('data1.csv', 'rb') as f:
         y1.append(row[1])
         x2.append(row[0])
         y2.append(row[2])
+        x3.append(row[0])
+        y3.append(row[3])
      
-    print x1
-    print y1
+    #print x1
+    #print y1
 
 
-output_file("grafica.html")
+output_file("grafica2.html")
 
 p = figure(plot_width=500, plot_height=400)
 
 
 
-p.line(x1, y1, line_width=2,legend="tile 32", line_color="blue")
-p.circle(x1, y1, legend="tile 32",fill_color=None, line_color="blue")
+p.line(x1, y1, line_width=2,legend="tile 32 mejorado", line_color="blue")
+p.circle(x1, y1, legend="tile 32 mejorado",fill_color=None, line_color="blue")
 
-p.line(x2, y2, line_width=2,legend="sin memoria compartida", line_color="red")
-p.circle(x2, y2, legend="sin memoria compartida",fill_color=None, line_color="red")
+p.line(x2, y2, line_width=2,legend="tile 32 ", line_color="red")
+p.circle(x2, y2, legend="tile 32 ",fill_color=None, line_color="red")
+
+p.line(x3, y3, line_width=2,legend="sin memoria compartida", line_color="black")
+p.circle(x3, y3, legend="sin memoria compartida",fill_color=None, line_color="black")
 
 
 
