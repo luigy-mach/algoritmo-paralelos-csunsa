@@ -93,71 +93,71 @@ __global__ void matrix_mult_shared(int** dd_mat_a, int n_rows_a, int n_cols_a ,i
 
 
 
-
 __global__ void matrix_mult_shared_mejorado(int** dd_mat_a, int n_rows_a, int n_cols_a ,int** dd_mat_b, int n_rows_b, int n_cols_b, int** dd_mat_c, int n_rows_c, int n_cols_c){
 
-
-	__shared__ int Mds [WIDTH_TILE][WIDTH_TILE];
-	__shared__ int Nds1[WIDTH_TILE][WIDTH_TILE];
-	__shared__ int Nds2[WIDTH_TILE][WIDTH_TILE];
-
-	int bx=blockIdx.x;
-	int by=blockIdx.y;
-
-	int tx=threadIdx.x;
-	int ty=threadIdx.y;
-
-	int value = 0;
-
-	int row = by*WIDTH_TILE + ty;
-	int col = bx*WIDTH_TILE + tx;	
-
-	int width = n_cols_a; //n_cols_a == n_rows_b
-
-	int k;
-	for(k=0 ; k<(int)(width-1+WIDTH_TILE)/(int)WIDTH_TILE ; ++k){
-		if (k*WIDTH_TILE+tx < n_cols_a && row < n_rows_a){
-			Mds[ty][tx] = dd_mat_a[row][k*WIDTH_TILE+tx];
-		}
-        else{
-			Mds[ty][tx] = 0;
-        }
-
-        if (k*(WIDTH_TILE+0)+ty < n_rows_b && col < n_cols_b){
-			Nds1[ty][tx] = dd_mat_b[k*(WIDTH_TILE+0)+ty][col];
-        }
-        else{
-			Nds1[ty][tx] = 0;
-        }
-
-        if (k*(WIDTH_TILE+1)+ty < n_rows_b && col < n_cols_b){
-			Nds2[ty][tx] = dd_mat_b[k*(WIDTH_TILE+1)+ty][col];
-        }
-        else{
-			Nds2[ty][tx] = 0;
-        }
-
-
-		__syncthreads();
-		int m;
-		for(m=0 ; m<WIDTH_TILE ; ++m){
-			value += Mds[ty][m]*Nds1[m][tx];
-		}
-		__syncthreads();
-
-		int m;
-		for(m=0 ; m<WIDTH_TILE ; ++m){
-			value += Mds[ty][m]*Nds2[m][tx];
-		}
-		__syncthreads();
-
-	}
-
-	if(row<n_rows_c && col<n_cols_c){
-		dd_mat_c[row][col]=value;
-		//dd_mat_c[row][col]=value;
-	}
 	
+	__shared__ int Mds[WIDTH_TILE][WIDTH_TILE];
+	__shared__ int Nds[WIDTH_TILE][WIDTH_TILE];
+
+	int bx = blockIdx.x;
+	int by = blockIdx.y;
+
+	int tx = threadIdx.x;
+	int ty = threadIdx.y;
+
+	int Row = by*WIDTH_TILE + ty;
+	int Col = bx*2*WIDTH_TILE + tx;
+	int Col2 = (bx*2+1)*WIDTH_TILE + tx;
+
+	int p1 = 0;
+	int p2 = 0;
+	
+	int k = 0;
+	int prefM  = dd_mat_a[Row][k*WIDTH_TILE + tx];
+	int prefN  = dd_mat_b[k*WIDTH_TILE + ty][Col];
+	int prefN2 = dd_mat_b[k*WIDTH_TILE + ty][Col2];
+		
+
+	Mds[ty][tx] = prefM;
+	Nds[ty][tx] = prefN;
+	__syncthreads();
+	
+	for(int m = 0; m < n_rows_c /WIDTH_TILE ; ++m){				
+		
+		prefM = dd_mat_a[Row][m*WIDTH_TILE + tx];
+		prefN = dd_mat_b[(m*WIDTH_TILE + ty)][Col];
+		
+		for(int k = 0; k<WIDTH_TILE; k++){
+			p1 += Mds[ty][k] * Nds[k][tx];
+		}		
+		__syncthreads();
+		
+		Nds[ty][tx] = prefN2;
+		
+		__syncthreads();
+		
+		prefN2 = dd_mat_b[(m*WIDTH_TILE + ty)][Col2];
+		
+		for(int k = 0; k < WIDTH_TILE; k++){
+			p2 += Mds[ty][k] * Nds[k][tx];
+		}
+		__syncthreads();
+		
+		
+		Mds[ty][tx] = prefM;
+		Nds[ty][tx] = prefN;
+		//__syncthreads();		
+		
+	}
+
+
+	if( Row<n_rows_c && Col<n_cols_c ){
+		dd_mat_c[Row][Col] = p1;
+	}
+
+	if( Row<n_rows_c && Col2<n_cols_c ){
+		dd_mat_c[Row][Col2] = p2;
+	}
 
 }
 
@@ -165,11 +165,7 @@ __global__ void matrix_mult_shared_mejorado(int** dd_mat_a, int n_rows_a, int n_
 
 
 
-
-
-
 __global__ 
-//void matrix_mult(int** dd_mat_a,int** dd_mat_b,int** dd_mat_c, int n, int m){
 void matrix_mult(int** dd_mat_a, int n_rows_a, int n_cols_a ,int** dd_mat_b, int n_rows_b, int n_cols_b, int** dd_mat_c, int n_rows_c, int n_cols_c){
 	int value=0;
 
@@ -258,7 +254,7 @@ void create(int**& mat, int**& d_mat, int**& dd_mat, int n, int m, int fillValue
 
 int main(){
 
-	int tam = 10;
+	int tam = 32;
 
 	int n = tam;
 	int m = tam;
