@@ -106,15 +106,15 @@ __global__ void matrix_mult_shared_mejorado(int** dd_mat_a, int n_rows_a, int n_
 	int ty = threadIdx.y;
 
 	int Row = by*WIDTH_TILE + ty;
-	int Col = bx*2*WIDTH_TILE + tx;
+	int Col1  = (bx*2)*WIDTH_TILE + tx;
 	int Col2 = (bx*2+1)*WIDTH_TILE + tx;
 
-	int p1 = 0;
-	int p2 = 0;
+	int value1 = 0;
+	int value2 = 0;
 	
 	int k = 0;
 	int prefM  = dd_mat_a[Row][k*WIDTH_TILE + tx];
-	int prefN  = dd_mat_b[k*WIDTH_TILE + ty][Col];
+	int prefN  = dd_mat_b[k*WIDTH_TILE + ty][Col1];
 	int prefN2 = dd_mat_b[k*WIDTH_TILE + ty][Col2];
 		
 
@@ -122,13 +122,16 @@ __global__ void matrix_mult_shared_mejorado(int** dd_mat_a, int n_rows_a, int n_
 	Nds[ty][tx] = prefN;
 	__syncthreads();
 	
-	for(int m = 0; m < n_rows_c /WIDTH_TILE ; ++m){				
+
+	int width = n_cols_a; //n_cols_a == n_rows_b
+
+	for(int m = 0; m < (int)(width-1+WIDTH_TILE)/(int)WIDTH_TILE ; ++m){				
 		
 		prefM = dd_mat_a[Row][m*WIDTH_TILE + tx];
-		prefN = dd_mat_b[(m*WIDTH_TILE + ty)][Col];
+		prefN = dd_mat_b[(m*WIDTH_TILE + ty)][Col1];
 		
 		for(int k = 0; k<WIDTH_TILE; k++){
-			p1 += Mds[ty][k] * Nds[k][tx];
+			value1 += Mds[ty][k] * Nds[k][tx];
 		}		
 		__syncthreads();
 		
@@ -139,7 +142,7 @@ __global__ void matrix_mult_shared_mejorado(int** dd_mat_a, int n_rows_a, int n_
 		prefN2 = dd_mat_b[(m*WIDTH_TILE + ty)][Col2];
 		
 		for(int k = 0; k < WIDTH_TILE; k++){
-			p2 += Mds[ty][k] * Nds[k][tx];
+			value2 += Mds[ty][k] * Nds[k][tx];
 		}
 		__syncthreads();
 		
@@ -151,12 +154,12 @@ __global__ void matrix_mult_shared_mejorado(int** dd_mat_a, int n_rows_a, int n_
 	}
 
 
-	if( Row<n_rows_c && Col<n_cols_c ){
-		dd_mat_c[Row][Col] = p1;
+	if( Row<n_rows_c && Col1<n_cols_c ){
+		dd_mat_c[Row][Col1] = value1;
 	}
 
 	if( Row<n_rows_c && Col2<n_cols_c ){
-		dd_mat_c[Row][Col2] = p2;
+		dd_mat_c[Row][Col2] = value2;
 	}
 
 }
@@ -254,7 +257,7 @@ void create(int**& mat, int**& d_mat, int**& dd_mat, int n, int m, int fillValue
 
 int main(){
 
-	int tam = 32;
+	int tam = 512;
 
 	int n = tam;
 	int m = tam;
@@ -278,7 +281,7 @@ int main(){
 
 
 	/////////////////////////////////////////
-	float time;
+	float time1,time2,time3;
 	cudaEvent_t my_start,my_stop;
 	cudaEventCreate(&my_start);
 	cudaEventCreate(&my_stop);
@@ -289,26 +292,46 @@ int main(){
 	printf("tx: %d,ty: %d\n",(int)(n-1+blockNum.x)/blockNum.x,(int)(q-1+blockNum.y)/blockNum.y);
 	printf("grid_row: %d, grid_col: %d\n",grid.y , grid.x );
 
-	///////////////////////////////////////// TIME
+	///////////////////////////////////////// TIME1
     cudaEventRecord(my_start,0);
 
-
-	matrix_mult_shared_mejorado<<<grid,blockNum>>>(dd_mat_a,n,m,dd_mat_b,p,q,dd_mat_c,n,q);
-	//matrix_mult_shared<<<grid,blockNum>>>(dd_mat_a,n,m,dd_mat_b,p,q,dd_mat_c,n,q);
-	//matrix_mult<<<grid,blockNum>>>(dd_mat_a,dd_mat_b,dd_mat_c,n,m);
+	matrix_mult_shared<<<grid,blockNum>>>(dd_mat_a,n,m,dd_mat_b,p,q,dd_mat_c,n,q);
 	
     cudaEventRecord(my_stop,0);
     cudaEventSynchronize(my_stop);
+    cudaEventElapsedTime(&time1,my_start,my_stop);
+    /////////////////////////////////////////////////////
+
+    ///////////////////////////////////////// TIME2
+    cudaEventRecord(my_start,0);
+
+	matrix_mult_shared_mejorado<<<grid,blockNum>>>(dd_mat_a,n,m,dd_mat_b,p,q,dd_mat_c,n,q);
+
+    cudaEventRecord(my_stop,0);
+    cudaEventSynchronize(my_stop);
+    cudaEventElapsedTime(&time2,my_start,my_stop);
+    /////////////////////////////////////////////////////
+
+    ///////////////////////////////////////// TIME3
+    cudaEventRecord(my_start,0);
+
+	matrix_mult<<<grid,blockNum>>>(dd_mat_a,n,m,dd_mat_b,p,q,dd_mat_c,n,q);
+	
+    cudaEventRecord(my_stop,0);
+    cudaEventSynchronize(my_stop);
+    cudaEventElapsedTime(&time3,my_start,my_stop);
     /////////////////////////////////////////////////////
 
 
-    cudaEventElapsedTime(&time,my_start,my_stop);
-	printf("time %dX%d , tam %d : %.25f \n",WIDTH_TILE,WIDTH_TILE,tam,time/1000);
+
+	printf("time1 %dX%d , tam %d : %.25f \n",WIDTH_TILE,WIDTH_TILE,tam,time1/1000);
+	printf("time2 %dX%d , tam %d : %.25f \n",WIDTH_TILE,WIDTH_TILE,tam,time2/1000);
+	printf("time2 %dX%d , tam %d : %.25f \n",WIDTH_TILE,WIDTH_TILE,tam,time3/1000);
 
 	cudaMemcpy(mat_c[0],d_mat_c[0],sizeof(int)*n*q,cudaMemcpyDeviceToHost);		
 
 	
-	
+	/*
 	printf("//////////////////\n");
 	printf("//////////////////\n");
 	print(mat_a,n,m);
@@ -317,6 +340,7 @@ int main(){
 
 	printf("//////////////////\n");
 	print(mat_c,n,q);
+	*/
 	
 	
 
